@@ -1,0 +1,37 @@
+#!/bin/bash
+# Runs once at boot (Amazon Linux 2023). Installs the app and runs it as a systemd service
+# on port 80, so the public IP alone (no port suffix) reaches the dashboard — same UX as the
+# bootcamp's `streamlit run app.py --server.port 80`, but unattended instead of a nano session.
+set -euxo pipefail
+
+dnf update -y
+dnf install -y python3.11 python3.11-pip git
+
+mkdir -p /opt/ae05
+cd /opt/ae05
+python3.11 -m venv .venv
+source .venv/bin/activate
+pip install --upgrade pip
+pip install streamlit==1.45.1 pandas s3fs boto3
+
+cat > /opt/ae05/app.py <<'PYEOF'
+${app_py}
+PYEOF
+
+cat > /etc/systemd/system/ae05-streamlit.service <<'UNITEOF'
+[Unit]
+Description=AE-05 Streamlit dashboard
+After=network.target
+
+[Service]
+Environment=MARKET_DATA_URL=s3://${data_bucket_name}/market_prices.csv
+ExecStart=/opt/ae05/.venv/bin/streamlit run /opt/ae05/app.py --server.port 80 --server.address 0.0.0.0 --server.headless true
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target
+UNITEOF
+
+systemctl daemon-reload
+systemctl enable --now ae05-streamlit.service
