@@ -1,4 +1,4 @@
-# Least-privilege IAM for the EC2 instance — this is the deliberate contrast with the bootcamp,
+# Least-privilege IAM for the EC2 instance. This is the deliberate contrast with the bootcamp,
 # which had the learner attach `AdministratorAccess` to a user. This role can do exactly one
 # thing: read objects from the data bucket. Nothing else, no console access, no other service.
 

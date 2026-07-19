@@ -1,18 +1,18 @@
 # AWS Deploy Handoff
 
 Everything that can be built and verified without a real AWS account is done (see `development.md`).
-What's left needs an actual AWS account — this environment has no working credentials for one (only
+What's left needs an actual AWS account: this environment has no working credentials for one (only
 an unrelated Supabase ECR profile), so this is a precise checklist for running it yourself, the same
 handoff pattern used for BA-02's Power Pivot session.
 
-Follow the steps **in this order** — the billing alert has to exist before anything that can incur
+Follow the steps **in this order**: the billing alert has to exist before anything that can incur
 cost (CLAUDE.md rule 6).
 
 ## 0. Prerequisites
 
 - [ ] AWS account with billing/payment method configured.
 - [ ] AWS CLI installed and configured (`aws configure`) with an IAM user that has permission to
-      create S3 buckets, EC2 instances, IAM roles, and Budgets — **not** the root user.
+      create S3 buckets, EC2 instances, IAM roles, and Budgets (**not** the root user).
 - [ ] Terraform >= 1.7 installed (`terraform -version`).
 - [ ] An EC2 key pair created in the target region (`aws ec2 create-key-pair --key-name ae05 --query 'KeyMaterial' --output text > ae05.pem && chmod 400 ae05.pem`).
 - [ ] Your current public IP, for `ssh_allowed_cidr` (`curl -s https://checkip.amazonaws.com`).
@@ -39,7 +39,7 @@ terraform apply -target=aws_budgets_budget.monthly
 terraform apply
 ```
 
-- [ ] Review the plan — confirm exactly one S3 bucket for docs, one for data, one EC2 instance,
+- [ ] Review the plan and confirm exactly one S3 bucket for docs, one for data, one EC2 instance,
       one IAM role, one security group.
 - [ ] Apply and record the outputs (`docs_site_url`, `dashboard_url`, `ec2_public_ip`).
 
@@ -70,19 +70,19 @@ DOCS_BUCKET=<docs_bucket_name> ./scripts/deploy_dbt_docs.sh
 - [ ] Screenshot the live dbt docs site at `docs_site_url` → `docs/screenshots/dbt-docs-live.png`.
 - [ ] Record both URLs in the README, replacing the "pending deploy" language.
 - [ ] `curl -o /dev/null -s -w "%{http_code}\n"` both URLs to prove they resolve **logged out**
-      (no auth, no VPN) — same verification bar as every other Live project in this portfolio.
+      (no auth, no VPN), the same verification bar as every other Live project in this portfolio.
 
 ## 6. Definition of Done
 
 - [ ] Update `README.md` status from **In progress** to reflect a live deployment (only once steps 1-5
-      are done with real evidence — no partial claims).
+      are done with real evidence, no partial claims).
 - [ ] Update the site card and project page (`site/index.html`,
       `site/projects/ae-05-aws-cloud-foundations.html`) to "Live" with the real URLs.
 - [ ] Update `docs/pending_issues.md` and `docs/decisions.md` in the workspace root to close this out.
 
 ## 7. Tear down (avoid ongoing cost)
 
-Once the screenshots are captured, this project doesn't need to stay running — a portfolio piece is
+Once the screenshots are captured, this project doesn't need to stay running: a portfolio piece is
 evidence of what was built, not a service that needs uptime.
 
 ```bash

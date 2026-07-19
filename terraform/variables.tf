@@ -26,7 +26,7 @@ variable "key_pair_name" {
 }
 
 variable "ssh_allowed_cidr" {
-  description = "CIDR allowed to SSH into the EC2 instance. Default is a placeholder — set to your own IP/32 before applying, never 0.0.0.0/0."
+  description = "CIDR allowed to SSH into the EC2 instance. Default is a placeholder: set to your own IP/32 before applying, never 0.0.0.0/0."
   type        = string
   default     = "203.0.113.1/32"
 }

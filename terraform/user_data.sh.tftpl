@@ -1,6 +1,6 @@
 #!/bin/bash
 # Runs once at boot (Amazon Linux 2023). Installs the app and runs it as a systemd service
-# on port 80, so the public IP alone (no port suffix) reaches the dashboard — same UX as the
+# on port 80, so the public IP alone (no port suffix) reaches the dashboard: same UX as the
 # bootcamp's `streamlit run app.py --server.port 80`, but unattended instead of a nano session.
 set -euxo pipefail
 

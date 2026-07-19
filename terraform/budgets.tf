@@ -1,4 +1,4 @@
-# Billing alert first — CLAUDE.md rule 6: "Configurar alerta de billing antes de provisionar."
+# Billing alert first: CLAUDE.md rule 6, "Configurar alerta de billing antes de provisionar."
 # This resource has no dependency on anything else in the project on purpose: apply this
 # alone first (`terraform apply -target=aws_budgets_budget.monthly`), confirm the SNS/email
 # subscription, and only then apply the rest.
